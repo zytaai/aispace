@@ -77,7 +77,7 @@ const Hero = () => {
               ease: "easeInOut"
             }}
           >
-            Brew Intelligence with<br /> Q-Brew AI Assistant
+            Brew Intelligence with<br /> AI Space Cafe AI Assistant
           </motion.span>
         </motion.h1>
 

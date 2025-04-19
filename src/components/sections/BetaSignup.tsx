@@ -49,7 +49,7 @@ export default function BetaSignup() {
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold mb-2">Get Quantum Daily Drops</h2>
           <p className="text-quantum-secondary">
-            Join the Beta for updates, flashcards, and early Q-Brew AI access.
+            Join the Beta for updates, flashcards, and early AI Space Cafe AI access.
           </p>
         </div>
 

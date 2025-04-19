@@ -138,7 +138,7 @@ export default function ChatWindow() {
             <div className="mac-dot mac-dot-green" />
           </div>
           <div className="flex justify-center w-full text-sm font-medium text-gray-300">
-            Q-Brew AI Assistant
+            AI Space Cafe AI Assistant
           </div>
         </div>
 
@@ -175,7 +175,7 @@ export default function ChatWindow() {
                   </svg>
                 </div>
                 <h2 className="text-2xl font-medium mb-3 premium-text">
-                  Unleash AI with Q-Brew: Chatbot-Driven
+                  Unleash AI with AI Space Cafe: Chatbot-Driven
                 </h2>
                 <p className="text-quantum-secondary text-base max-w-md">
                   Ask anything about quantum computing. Powered by LLaMA 4.0 Scout with no login or data tracking.
@@ -217,7 +217,7 @@ export default function ChatWindow() {
                     <div className="message-bubble message-bubble-assistant">
                       <div className="flex items-center space-x-2">
                         <Loader2 className="w-4 h-4 animate-spin" />
-                        <span className="text-sm">Q-Brew is thinking...</span>
+                        <span className="text-sm">AI Space Cafe is thinking...</span>
                       </div>
                     </div>
                   </motion.div>
