@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI Space Cafe | AI Space Assistant",
+  title: "Quantum Café | Q-Brew AI Assistant",
   description: "AI-powered quantum computing assistant with privacy-first approach. No login required.",
 };
 

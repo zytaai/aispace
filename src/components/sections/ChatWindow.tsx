@@ -138,7 +138,7 @@ export default function ChatWindow() {
             <div className="mac-dot mac-dot-green" />
           </div>
           <div className="flex justify-center w-full text-sm font-medium text-gray-300">
-            AI Space Assistant
+            Q-Brew AI Assistant
           </div>
         </div>
 
@@ -175,7 +175,7 @@ export default function ChatWindow() {
                   </svg>
                 </div>
                 <h2 className="text-2xl font-medium mb-3 premium-text">
-                  Experience creativity with AI in our cafe.
+                  Unleash AI with Q-Brew: Chatbot-Driven
                 </h2>
                 <p className="text-quantum-secondary text-base max-w-md">
                   Ask anything about quantum computing. Powered by LLaMA 4.0 Scout with no login or data tracking.

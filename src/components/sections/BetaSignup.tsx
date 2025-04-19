@@ -86,7 +86,7 @@ export default function BetaSignup() {
                 <div className="h-5 w-5 border-2 border-quantum-dark/50 border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
-                  Enter Cafe
+                  Join Beta
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </>
               )}
