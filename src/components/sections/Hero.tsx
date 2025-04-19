@@ -77,14 +77,14 @@ const Hero = () => {
               ease: "easeInOut"
             }}
           >
-            Brew Intelligence with<br /> Q-Brew AI Assistant
+            Brew Intelligence with<br /> AI Space Assistant
           </motion.span>
         </motion.h1>
 
         <p className="text-lg md:text-xl text-quantum-secondary max-w-3xl mx-auto mb-10 premium-text">
           Powered by LLaMA 4.0 Scout — designed for quantum learners.
           <br />
-          <span className="text-white/90">No login, no user data — full privacy.</span>
+          <span className="text-white/90">Open to everyone — no login, no data tracking.</span>
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
@@ -101,7 +101,7 @@ const Hero = () => {
             href="#beta"
             className="px-8 py-3.5 rounded-xl button-ghost font-medium text-sm md:text-base min-w-[180px]"
           >
-            Join Beta
+            Enter Cafe
           </Link>
         </div>
       </motion.div>

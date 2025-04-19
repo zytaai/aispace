@@ -27,7 +27,7 @@ const Navbar = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Quantum Café
+            AI Space Cafe
           </motion.span>
         </Link>
 
@@ -71,7 +71,7 @@ const Navbar = () => {
             href="#chat"
             className="px-5 py-2.5 text-sm rounded-xl button-gradient font-medium transition-all duration-300"
           >
-            Try It Now
+            Explore Now
           </Link>
         </motion.div>
 
@@ -138,7 +138,7 @@ const Navbar = () => {
                 className="px-4 py-3 text-sm rounded-xl button-gradient font-medium text-center"
                 onClick={() => setIsOpen(false)}
               >
-                Try It Now
+                Explore Now
               </Link>
             </div>
           </div>

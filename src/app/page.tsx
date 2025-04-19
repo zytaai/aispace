@@ -172,10 +172,10 @@ export default function Home() {
       <footer className="py-16 px-4 text-center text-quantum-secondary text-sm border-t border-white/5 relative z-10">
         <div className="max-w-7xl mx-auto">
           <h2 className="tube-light text-3xl md:text-5xl font-bold text-white mb-6">
-            Quantum Café
+            AI Space Cafe
           </h2>
           <p className="text-white/70 text-base premium-text">
-            © {new Date().getFullYear()} Quantum Café — No login, no user data — full privacy.
+            © {new Date().getFullYear()} AI Space Cafe — Open to everyone — no login, no data tracking.
           </p>
         </div>
       </footer>
