@@ -166,7 +166,9 @@ export default function Home() {
       <Navbar />
       <Hero />
       <ChatWindow />
-            
+      <Flashcards />
+      <BetaSignup />
+
       <footer style={{ textAlign: "center", fontSize: "0.9rem", marginTop: "2rem" }} className="py-16 px-4 text-center text-quantum-secondary text-sm border-t border-white/5 relative z-10">
         <div className="max-w-7xl mx-auto">
           <h2 className="tube-light text-3xl md:text-5xl font-bold text-white mb-6">
