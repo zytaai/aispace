@@ -12,8 +12,8 @@ vaderSentiment==3.3.2
 # numpy와 scikit-learn 제거
 # schedule 대신 더 가벼운 대안
 apscheduler==3.10.4
-# psycopg2-binary 대신 더 가벼운 대안
-psycopg2==2.9.9
+# psycopg2 대신 psycopg2-binary 사용
+psycopg2-binary==2.9.9
 # boto3 대신 더 가벼운 대안
 requests==2.31.0
 gunicorn==21.2.0 
