@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Space Cafe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="theme-color" content="#2c3e50">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+        }
+        
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8f9fa;
+            padding-bottom: 60px; /* For mobile bottom navigation */
+        }
+        
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .space-card {
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .space-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .emoji-picker {
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            display: none;
+        }
+
+        /* Mobile Bottom Navigation */
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 1000;
+        }
+
+        .mobile-nav-item {
+            text-align: center;
+            padding: 10px;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .mobile-nav-item.active {
+            color: var(--secondary-color);
+        }
+
+        .mobile-nav-item i {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none;
+            }
+            
+            .mobile-nav {
+                display: flex;
+                justify-content: space-around;
+            }
+            
+            .container {
+                padding-bottom: 70px;
+            }
+            
+            .card {
+                margin-bottom: 15px;
+            }
+            
+            .btn-group {
+                width: 100%;
+            }
+            
+            .btn-group .btn {
+                flex: 1;
+            }
+        }
+
+        /* Touch-friendly elements */
+        .touch-target {
+            min-height: 44px;
+            min-width: 44px;
+            padding: 12px;
+        }
+
+        /* Pull to refresh */
+        .pull-to-refresh {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 10px;
+            background: var(--primary-color);
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+        }
+
+        .loading-spinner.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Desktop Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark desktop-nav">
+        <div class="container">
+            <a class="navbar-brand" href="/">AI Space Cafe</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/my-space">My Space</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/z-zone">Z-Zone</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/trends">Trends</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/zyta">AI Entertainment</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    {% if current_user.is_authenticated %}
+                        <span class="nav-link text-light">{{ current_user.username }}</span>
+                        <a class="nav-link" href="/logout">Logout</a>
+                    {% else %}
+                        <a class="nav-link" href="/login">Login</a>
+                        <a class="nav-link" href="/register">Register</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-nav">
+        <a href="/" class="mobile-nav-item {% if request.endpoint == 'home' %}active{% endif %}">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="/my-space" class="mobile-nav-item {% if request.endpoint == 'my_space' %}active{% endif %}">
+            <i class="fas fa-user"></i>
+            <span>My Space</span>
+        </a>
+        <a href="/z-zone" class="mobile-nav-item {% if request.endpoint == 'z_zone' %}active{% endif %}">
+            <i class="fas fa-robot"></i>
+            <span>Z-Zone</span>
+        </a>
+        <a href="/trends" class="mobile-nav-item {% if request.endpoint == 'trends' %}active{% endif %}">
+            <i class="fas fa-chart-line"></i>
+            <span>Trends</span>
+        </a>
+        <a href="/zyta" class="mobile-nav-item {% if request.endpoint == 'zyta' %}active{% endif %}">
+            <i class="fas fa-film"></i>
+            <span>Entertainment</span>
+        </a>
+    </nav>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>AI Space Cafe</h5>
+                    <p>사람과 AI가 함께하는 공간</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>공간</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/my-space" class="text-light">My Space</a></li>
+                        <li><a href="/z-zone" class="text-light">Z-Zone</a></li>
+                        <li><a href="/trends" class="text-light">Trends</a></li>
+                        <li><a href="/zyta" class="text-light">AI Entertainment</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>연락처</h5>
+                    <p>Email: contact@aispacecafe.com</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/static/sw.js')
+                .then(registration => {
+                    console.log('ServiceWorker registration successful');
+                })
+                .catch(err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+        }
+
+        // Pull to refresh
+        let touchStartY = 0;
+        let touchEndY = 0;
+        
+        document.addEventListener('touchstart', e => {
+            touchStartY = e.touches[0].clientY;
+        }, false);
+        
+        document.addEventListener('touchend', e => {
+            touchEndY = e.changedTouches[0].clientY;
+            handleSwipe();
+        }, false);
+        
+        function handleSwipe() {
+            if (touchEndY < touchStartY) {
+                // Swipe up
+                if (window.scrollY === 0) {
+                    location.reload();
+                }
+            }
+        }
+
+        // Loading spinner
+        function showLoading() {
+            document.querySelector('.loading-spinner').classList.add('active');
+        }
+
+        function hideLoading() {
+            document.querySelector('.loading-spinner').classList.remove('active');
+        }
+
+        // Add loading spinner to all AJAX requests
+        $(document).ajaxStart(function() {
+            showLoading();
+        }).ajaxStop(function() {
+            hideLoading();
+        });
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html> 

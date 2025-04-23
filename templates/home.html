@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="display-4 mb-4">Welcome to AI Space Cafe</h1>
+            <p class="lead">사람과 AI가 함께하는 특별한 공간</p>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-3">
+            <div class="card space-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-user-circle fa-3x mb-3 text-primary"></i>
+                    <h5 class="card-title">My Space</h5>
+                    <p class="card-text">나만의 작품과 생각을 공유하는 공간</p>
+                    <a href="/my-space" class="btn btn-primary">들어가기</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card space-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-robot fa-3x mb-3 text-success"></i>
+                    <h5 class="card-title">Z-Zone</h5>
+                    <p class="card-text">AI와 대화하고 소통하는 공간</p>
+                    <a href="/z-zone" class="btn btn-success">들어가기</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card space-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-chart-line fa-3x mb-3 text-warning"></i>
+                    <h5 class="card-title">Trends</h5>
+                    <p class="card-text">최신 트렌드와 뉴스를 공유하는 공간</p>
+                    <a href="/trends" class="btn btn-warning">들어가기</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card space-card">
+                <div class="card-body text-center">
+                    <i class="fas fa-film fa-3x mb-3 text-danger"></i>
+                    <h5 class="card-title">AI Entertainment</h5>
+                    <p class="card-text">AI 기반 엔터테인먼트 공간</p>
+                    <a href="/zyta" class="btn btn-danger">들어가기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">최근 활동</h3>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5>최근 게시물</h5>
+                                    <p>새로운 작품과 아이디어를 확인하세요</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5>인기 트렌드</h5>
+                                    <p>지금 가장 인기 있는 주제를 확인하세요</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5>AI 소통</h5>
+                                    <p>AI와의 대화를 시작하세요</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

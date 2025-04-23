@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Z-Zone</h2>
+            <p class="text-muted">AI와 대화하고 소통하는 공간</p>
+            
+            <!-- AI 채팅 인터페이스 -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div id="chat-messages" class="mb-3" style="height: 400px; overflow-y: auto;">
+                        <!-- 채팅 메시지들이 여기에 표시됩니다 -->
+                    </div>
+                    <form id="chat-form" class="d-flex">
+                        <input type="text" id="message-input" class="form-control me-2" placeholder="AI와 대화해보세요...">
+                        <button type="submit" class="btn btn-primary">전송</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- AI 생성 컨텐츠 -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">AI 생성 컨텐츠</h5>
+                    <div class="row">
+                        {% for post in posts %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="card-title">{{ post.title }}</h6>
+                                    <p class="card-text">{{ post.content }}</p>
+                                    {% if post.image_url %}
+                                    <img src="{{ url_for('static', filename='uploads/' + post.image_url) }}" class="img-fluid mb-2" alt="AI generated image">
+                                    {% endif %}
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">{{ post.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#commentModal{{ post.id }}">
+                                                댓글
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="dropdown">
+                                                <i class="fas fa-smile"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#" onclick="addReaction({{ post.id }}, '😊')">😊</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="addReaction({{ post.id }}, '👍')">👍</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="addReaction({{ post.id }}, '❤️')">❤️</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <!-- 사이드바 -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">AI 기능</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <i class="fas fa-comments text-primary me-2"></i>
+                            대화하기
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-image text-success me-2"></i>
+                            이미지 생성
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-music text-warning me-2"></i>
+                            음악 생성
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-code text-danger me-2"></i>
+                            코드 생성
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('chat-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const messageInput = document.getElementById('message-input');
+    const message = messageInput.value;
+    
+    if (message.trim()) {
+        // 사용자 메시지 추가
+        addMessage('user', message);
+        
+        // AI 응답 요청
+        fetch('/z-zone/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: message })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // AI 응답 추가
+            addMessage('ai', data.message);
+        });
+        
+        messageInput.value = '';
+    }
+});
+
+function addMessage(sender, message) {
+    const chatMessages = document.getElementById('chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `d-flex ${sender === 'user' ? 'justify-content-end' : 'justify-content-start'} mb-3`;
+    
+    messageDiv.innerHTML = `
+        <div class="card ${sender === 'user' ? 'bg-primary text-white' : 'bg-light'}">
+            <div class="card-body">
+                <p class="card-text mb-0">${message}</p>
+            </div>
+        </div>
+    `;
+    
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function addReaction(postId, emoji) {
+    fetch('/add-reaction/' + postId, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'emoji=' + emoji
+    }).then(() => {
+        location.reload();
+    });
+}
+</script>
+{% endblock %} 

@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mb-4">Settings</h2>
+            
+            <form id="settings-form" method="POST">
+                <!-- AI Features -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">AI Features</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="enable_translation" name="enable_translation" {% if settings.enable_translation %}checked{% endif %}>
+                            <label class="form-check-label" for="enable_translation">Enable Translation</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="enable_sentiment_analysis" name="enable_sentiment_analysis" {% if settings.enable_sentiment_analysis %}checked{% endif %}>
+                            <label class="form-check-label" for="enable_sentiment_analysis">Enable Sentiment Analysis</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="enable_content_recommendation" name="enable_content_recommendation" {% if settings.enable_content_recommendation %}checked{% endif %}>
+                            <label class="form-check-label" for="enable_content_recommendation">Enable Content Recommendation</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Social Features -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Social Features</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="enable_notifications" name="enable_notifications" {% if settings.enable_notifications %}checked{% endif %}>
+                            <label class="form-check-label" for="enable_notifications">Enable Notifications</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="enable_group_chat" name="enable_group_chat" {% if settings.enable_group_chat %}checked{% endif %}>
+                            <label class="form-check-label" for="enable_group_chat">Enable Group Chat</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="enable_follow_system" name="enable_follow_system" {% if settings.enable_follow_system %}checked{% endif %}>
+                            <label class="form-check-label" for="enable_follow_system">Enable Follow System</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile Features -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Mobile Features</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="enable_push_notifications" name="enable_push_notifications" {% if settings.enable_push_notifications %}checked{% endif %}>
+                            <label class="form-check-label" for="enable_push_notifications">Enable Push Notifications</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="enable_offline_mode" name="enable_offline_mode" {% if settings.enable_offline_mode %}checked{% endif %}>
+                            <label class="form-check-label" for="enable_offline_mode">Enable Offline Mode</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Data Analysis -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Data Analysis</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="enable_activity_tracking" name="enable_activity_tracking" {% if settings.enable_activity_tracking %}checked{% endif %}>
+                            <label class="form-check-label" for="enable_activity_tracking">Enable Activity Tracking</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="enable_trend_analysis" name="enable_trend_analysis" {% if settings.enable_trend_analysis %}checked{% endif %}>
+                            <label class="form-check-label" for="enable_trend_analysis">Enable Trend Analysis</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Privacy Settings -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Privacy Settings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="show_online_status" name="show_online_status" {% if settings.show_online_status %}checked{% endif %}>
+                            <label class="form-check-label" for="show_online_status">Show Online Status</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="show_activity_status" name="show_activity_status" {% if settings.show_activity_status %}checked{% endif %}>
+                            <label class="form-check-label" for="show_activity_status">Show Activity Status</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="allow_data_collection" name="allow_data_collection" {% if settings.allow_data_collection %}checked{% endif %}>
+                            <label class="form-check-label" for="allow_data_collection">Allow Data Collection</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Notification Preferences -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Notification Preferences</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="notify_on_follow" name="notify_on_follow" {% if settings.notify_on_follow %}checked{% endif %}>
+                            <label class="form-check-label" for="notify_on_follow">Notify on Follow</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="notify_on_comment" name="notify_on_comment" {% if settings.notify_on_comment %}checked{% endif %}>
+                            <label class="form-check-label" for="notify_on_comment">Notify on Comment</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="notify_on_reaction" name="notify_on_reaction" {% if settings.notify_on_reaction %}checked{% endif %}>
+                            <label class="form-check-label" for="notify_on_reaction">Notify on Reaction</label>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="notify_on_mention" name="notify_on_mention" {% if settings.notify_on_mention %}checked{% endif %}>
+                            <label class="form-check-label" for="notify_on_mention">Notify on Mention</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Language Settings -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Language Settings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="preferred_language" class="form-label">Preferred Language</label>
+                            <select class="form-select" id="preferred_language" name="preferred_language">
+                                <option value="en" {% if settings.preferred_language == 'en' %}selected{% endif %}>English</option>
+                                <option value="ko" {% if settings.preferred_language == 'ko' %}selected{% endif %}>Korean</option>
+                                <option value="ja" {% if settings.preferred_language == 'ja' %}selected{% endif %}>Japanese</option>
+                                <option value="zh" {% if settings.preferred_language == 'zh' %}selected{% endif %}>Chinese</option>
+                            </select>
+                        </div>
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="auto_translate" name="auto_translate" {% if settings.auto_translate %}checked{% endif %}>
+                            <label class="form-check-label" for="auto_translate">Auto Translate</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Theme Settings -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Theme Settings</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check form-switch mb-3">
+                            <input class="form-check-input" type="checkbox" id="dark_mode" name="dark_mode" {% if settings.dark_mode %}checked{% endif %}>
+                            <label class="form-check-label" for="dark_mode">Dark Mode</label>
+                        </div>
+                        <div class="mb-3">
+                            <label for="font_size" class="form-label">Font Size</label>
+                            <select class="form-select" id="font_size" name="font_size">
+                                <option value="small" {% if settings.font_size == 'small' %}selected{% endif %}>Small</option>
+                                <option value="medium" {% if settings.font_size == 'medium' %}selected{% endif %}>Medium</option>
+                                <option value="large" {% if settings.font_size == 'large' %}selected{% endif %}>Large</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Save Settings</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('settings-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const settings = {};
+    
+    for (let [key, value] of formData.entries()) {
+        settings[key] = value;
+    }
+    
+    fetch('/settings', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(settings)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert('Settings saved successfully!');
+            location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to save settings. Please try again.');
+    });
+});
+
+// Apply theme settings immediately
+function applyThemeSettings() {
+    const darkMode = document.getElementById('dark_mode').checked;
+    const fontSize = document.getElementById('font_size').value;
+    
+    document.body.classList.toggle('dark-mode', darkMode);
+    document.body.style.fontSize = {
+        'small': '14px',
+        'medium': '16px',
+        'large': '18px'
+    }[fontSize];
+}
+
+// Apply settings when changed
+document.getElementById('dark_mode').addEventListener('change', applyThemeSettings);
+document.getElementById('font_size').addEventListener('change', applyThemeSettings);
+
+// Apply initial settings
+applyThemeSettings();
+</script>
+{% endblock %} 

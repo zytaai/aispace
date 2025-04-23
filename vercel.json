@@ -1,0 +1,19 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "ai-space-cafe.py",
+            "use": "@vercel/python"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "ai-space-cafe.py"
+        }
+    ],
+    "env": {
+        "FLASK_APP": "ai-space-cafe.py",
+        "FLASK_ENV": "production"
+    }
+} 

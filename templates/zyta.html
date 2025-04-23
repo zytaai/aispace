@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>AI Entertainment</h2>
+            <p class="text-muted">AI 기반 엔터테인먼트 공간</p>
+            
+            <!-- 프로젝트 작성 폼 -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">새 프로젝트 공유</h5>
+                    <form action="/create-post" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="space_type" value="zyta">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" name="title" placeholder="프로젝트 제목" required>
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control" name="content" rows="3" placeholder="프로젝트 설명" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <input type="file" class="form-control" name="image" accept="image/*">
+                        </div>
+                        <div class="mb-3">
+                            <input type="file" class="form-control" name="music" accept="audio/*">
+                        </div>
+                        <div class="mb-3">
+                            <input type="url" class="form-control" name="video_url" placeholder="영상 URL">
+                        </div>
+                        <button type="submit" class="btn btn-primary">공유하기</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 프로젝트 목록 -->
+            <div class="row">
+                {% for post in posts %}
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        {% if post.image_url %}
+                        <img src="{{ url_for('static', filename='uploads/' + post.image_url) }}" class="card-img-top" alt="Project image">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text">{{ post.content }}</p>
+                            {% if post.video_url %}
+                            <div class="ratio ratio-16x9 mb-3">
+                                <iframe src="{{ post.video_url }}" allowfullscreen></iframe>
+                            </div>
+                            {% endif %}
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">{{ post.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#commentModal{{ post.id }}">
+                                        댓글
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="dropdown">
+                                        <i class="fas fa-smile"></i>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#" onclick="addReaction({{ post.id }}, '😊')">😊</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="addReaction({{ post.id }}, '👍')">👍</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="addReaction({{ post.id }}, '❤️')">❤️</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <!-- 사이드바 -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">인기 프로젝트</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <i class="fas fa-film text-primary me-2"></i>
+                            AI 영화 제작
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-music text-success me-2"></i>
+                            AI 음악 작곡
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-gamepad text-warning me-2"></i>
+                            AI 게임 개발
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-paint-brush text-danger me-2"></i>
+                            AI 아트워크
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">ZyTa 소식</h5>
+                    <div class="list-group list-group-flush">
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">새로운 AI 영화 프로젝트</h6>
+                                <small class="text-muted">3일 전</small>
+                            </div>
+                            <p class="mb-1">AI가 제작한 새로운 영화가 곧 공개됩니다.</p>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">AI 음악 콘서트</h6>
+                                <small class="text-muted">1주일 전</small>
+                            </div>
+                            <p class="mb-1">AI가 작곡한 음악으로 구성된 특별 콘서트가 개최됩니다.</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function addReaction(postId, emoji) {
+    fetch('/add-reaction/' + postId, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'emoji=' + emoji
+    }).then(() => {
+        location.reload();
+    });
+}
+</script>
+{% endblock %} 

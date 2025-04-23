@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="mb-4">My Characters</h2>
+            <a href="{{ url_for('create_character') }}" class="btn btn-primary mb-4">Create New Character</a>
+            
+            <div class="row">
+                {% for character in characters %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        {% if character.avatar_url %}
+                        <img src="{{ url_for('static', filename='uploads/' + character.avatar_url) }}" class="card-img-top" alt="{{ character.name }}">
+                        {% else %}
+                        <div class="card-img-top bg-light text-center py-5">
+                            <i class="fas fa-user-circle fa-5x text-muted"></i>
+                        </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ character.name }}</h5>
+                            <p class="card-text">{{ character.description }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">Created: {{ character.created_at.strftime('%Y-%m-%d') }}</small>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editCharacterModal{{ character.id }}">
+                                        Edit
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteCharacterModal{{ character.id }}">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% for character in characters %}
+<!-- Edit Character Modal -->
+<div class="modal fade" id="editCharacterModal{{ character.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Character</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ url_for('edit_character', character_id=character.id) }}" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Character Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ character.name }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Character Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" required>{{ character.description }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="avatar" class="form-label">Character Avatar</label>
+                        <input type="file" class="form-control" id="avatar" name="avatar" accept="image/*">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Character Modal -->
+<div class="modal fade" id="deleteCharacterModal{{ character.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Character</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete {{ character.name }}? This action cannot be undone.</p>
+                <form action="{{ url_for('delete_character', character_id=character.id) }}" method="POST">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %} 
