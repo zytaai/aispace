@@ -8,7 +8,8 @@ Werkzeug==2.0.1
 googletrans==3.1.0a0
 textblob==0.15.3
 numpy==1.21.2
-scikit-learn==0.24.2
+# scikit-learn 대신 더 가벼운 대안 사용
+scikit-learn-intelex==2021.3.0
 schedule==1.1.0
 psycopg2-binary==2.9.1
 boto3==1.18.44
