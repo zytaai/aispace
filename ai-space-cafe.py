@@ -14,13 +14,19 @@ import schedule
 from translate import Translator
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from apscheduler.schedulers.background import BackgroundScheduler
+import logging
+
+# 로깅 설정
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your-secret-key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///space_cafe.db'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///space_cafe.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
+# 데이터베이스 초기화
 db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -241,7 +247,11 @@ def get_content_recommendations(user_id, limit=5):
 # Routes
 @app.route('/')
 def home():
-    return render_template('home.html')
+    try:
+        return render_template('home.html')
+    except Exception as e:
+        logger.error(f"Error in home route: {e}")
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -782,7 +792,24 @@ def is_feature_enabled(user_id, feature_name):
     
     return feature_map.get(feature_name, True)
 
+# 서버리스 환경을 위한 핸들러
+@app.route('/_vercel/deploy-complete')
+def deploy_complete():
+    return jsonify({"status": "success"})
+
+# 데이터베이스 초기화
+def init_db():
+    try:
+        with app.app_context():
+            db.create_all()
+            logger.info("Database initialized successfully")
+    except Exception as e:
+        logger.error(f"Error initializing database: {e}")
+
+# 애플리케이션 시작
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
+    init_db()
     app.run(debug=True)
+else:
+    # 서버리스 환경에서 실행될 때
+    init_db()
