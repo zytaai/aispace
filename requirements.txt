@@ -1,16 +1,19 @@
-Flask==2.0.1
-Flask-SQLAlchemy==2.5.1
-Flask-Login==0.5.0
+Flask==2.3.3
+Flask-SQLAlchemy==3.1.1
+Flask-Login==0.6.3
 Flask-WTF==0.15.1
 Pillow==8.3.1
-python-dotenv==0.19.0
-Werkzeug==2.0.1
-googletrans==3.1.0a0
-textblob==0.15.3
-numpy==1.21.2
-# scikit-learn 대신 더 가벼운 대안 사용
-scikit-learn-intelex==2021.3.0
-schedule==1.1.0
-psycopg2-binary==2.9.1
-boto3==1.18.44
-gunicorn==20.1.0 
+python-dotenv==1.0.0
+Werkzeug==2.3.7
+# googletrans 대신 더 가벼운 대안
+translate==3.6.1
+# textblob 대신 더 가벼운 대안
+vaderSentiment==3.3.2
+# numpy와 scikit-learn 제거
+# schedule 대신 더 가벼운 대안
+apscheduler==3.10.4
+# psycopg2-binary 대신 더 가벼운 대안
+psycopg2==2.9.9
+# boto3 대신 더 가벼운 대안
+requests==2.31.0
+gunicorn==21.2.0 

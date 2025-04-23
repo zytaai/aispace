@@ -11,6 +11,9 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import schedule
+from translate import Translator
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from apscheduler.schedulers.background import BackgroundScheduler
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key'
@@ -25,6 +28,8 @@ login_manager.login_view = 'login'
 
 # AI Services
 translator = Translator()
+sentiment_analyzer = SentimentIntensityAnalyzer()
+scheduler = BackgroundScheduler()
 vectorizer = TfidfVectorizer()
 
 # Models
@@ -204,8 +209,8 @@ def translate_text(text, target_lang='en'):
 
 def analyze_sentiment(text):
     try:
-        analysis = TextBlob(text)
-        return analysis.sentiment.polarity
+        sentiment = sentiment_analyzer.polarity_scores(text)
+        return sentiment['compound']  # Returns a score between -1 and 1
     except:
         return 0.0
 
@@ -220,19 +225,14 @@ def get_content_recommendations(user_id, limit=5):
     # Get all posts
     all_posts = Post.query.all()
     
-    # Create TF-IDF vectors
-    post_texts = [f"{post.title} {post.content}" for post in all_posts]
-    tfidf_matrix = vectorizer.fit_transform(post_texts)
-    
-    # Calculate similarity scores
-    similarity_scores = cosine_similarity(tfidf_matrix)
-    
-    # Get recommendations
+    # Simple recommendation based on user interests
     recommendations = []
-    for i, post in enumerate(all_posts):
+    for post in all_posts:
         if post.user_id != user_id:  # Don't recommend user's own posts
-            score = np.mean(similarity_scores[i])
-            recommendations.append((post, score))
+            # Check if post title or content contains any of user's interests
+            score = sum(1 for interest in user_interests if interest.lower() in post.title.lower() or interest.lower() in post.content.lower())
+            if score > 0:
+                recommendations.append((post, score))
     
     # Sort by score and return top recommendations
     recommendations.sort(key=lambda x: x[1], reverse=True)
@@ -702,16 +702,18 @@ def get_reports():
 # Schedule periodic tasks
 def schedule_tasks():
     # Analyze trends every 6 hours
-    schedule.every(6).hours.do(analyze_trends)
+    scheduler.add_job(analyze_trends, 'interval', hours=6)
     
     # Generate daily report at midnight
-    schedule.every().day.at("00:00").do(generate_insight_report, 'daily')
+    scheduler.add_job(generate_insight_report, 'cron', hour=0, minute=0, args=['daily'])
     
     # Generate weekly report on Sunday
-    schedule.every().sunday.at("00:00").do(generate_insight_report, 'weekly')
+    scheduler.add_job(generate_insight_report, 'cron', day_of_week='sun', hour=0, minute=0, args=['weekly'])
     
     # Generate monthly report on the 1st
-    schedule.every().month.at("00:00").do(generate_insight_report, 'monthly')
+    scheduler.add_job(generate_insight_report, 'cron', day=1, hour=0, minute=0, args=['monthly'])
+    
+    scheduler.start()
 
 # Settings Routes
 @app.route('/settings', methods=['GET', 'POST'])
