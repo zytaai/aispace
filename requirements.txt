@@ -1,19 +1,10 @@
 Flask==2.3.3
 Flask-SQLAlchemy==3.1.1
 Flask-Login==0.6.3
-Flask-WTF==0.15.1
-Pillow==8.3.1
-python-dotenv==1.0.0
 Werkzeug==2.3.7
-# googletrans 대신 더 가벼운 대안
 translate==3.6.1
-# textblob 대신 더 가벼운 대안
 vaderSentiment==3.3.2
-# numpy와 scikit-learn 제거
-# schedule 대신 더 가벼운 대안
 apscheduler==3.10.4
-# psycopg2 대신 psycopg2-binary 사용
-psycopg2-binary==2.9.9
-# boto3 대신 더 가벼운 대안
+python-dotenv==1.0.0
 requests==2.31.0
 gunicorn==21.2.0 
